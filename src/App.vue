@@ -1,28 +1,74 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <v-app>
+    <v-content>
+      <!-- <HelloWorld/> -->
+      <v-row>
+          <v-col cols="12" sm="10" offset-sm="1" class="mt-10">
+            <v-card height="auto" raised>
+              <v-card-title class="blue white--text">
+                <span class="headline">Memory System</span>
+
+                <v-spacer></v-spacer>
+
+                <v-menu bottom left>
+                  <template v-slot:activator="{ on }">
+                    <v-btn
+                      dark
+                      icon
+                      v-on="on"
+                    >
+                      <v-icon>mdi-dots-vertical</v-icon>
+                    </v-btn>
+                  </template>
+
+                  <v-list>
+                    <v-list-item
+                      v-for="(item, i) in items"
+                      :key="i"
+                      
+                    >
+                      <v-list-item-title>{{ item.title }}</v-list-item-title>
+                    </v-list-item>
+                  </v-list>
+                </v-menu>
+              </v-card-title>
+
+              <v-card-text>
+                <v-row>
+                   <v-col  sm="12" md="6">
+                       <FormSystem></FormSystem>
+                   </v-col>
+                   <v-col  sm="12" md="6">
+                        <h3 class="text-center my-3">Memory State</h3>
+                       <BlockMemory></BlockMemory>
+                   </v-col>
+                   
+                </v-row>
+              </v-card-text>
+            </v-card>
+          </v-col>
+        </v-row>
+    </v-content>
+  </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import FormSystem from './components/formsystem';
+import BlockMemory from './components/blockmemory';
 
 export default {
   name: 'App',
-  components: {
-    HelloWorld
-  }
-}
-</script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+  components: {
+    FormSystem,
+    BlockMemory,
+  },
+
+  data: () => ({
+    items: [
+        { title: 'Clean Memory' },
+        { title: 'Back' },
+      ],
+  }),
+};
+</script>
