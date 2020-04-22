@@ -1,7 +1,6 @@
 <template>
   <v-app>
     <v-content>
-      <!-- <HelloWorld/> -->
       <v-row>
           <v-col cols="12" sm="10" offset-sm="1" class="mt-10">
             <v-card height="auto" raised>

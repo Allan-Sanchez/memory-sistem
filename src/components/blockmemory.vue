@@ -1,7 +1,9 @@
 <template>
     <div class="d-flex flex-column">
-        <div :style="item.background"  class=" bloque-memory d-flex justify-space-around align-center mx-auto" v-for="(item, index) in blockMemory" :key="index">
-            <span class="white--text d-block my-1">{{ item.name }}</span>
+        <div :style="item.background" class=" bloque-memory d-flex justify-space-around align-center mx-auto" 
+            v-for="(item, index) in $store.state.blockMemory" :key="index">
+            <span v-if="item.nameApp === ''" class="white--text d-block my-1">{{ item.name }}</span>
+            <span v-if="item.name === ''" class="white--text d-block my-1">{{ item.nameApp }}</span>
             <span class="white--text d-block my-1">{{ item.size }}
                 <v-icon left class="mr-n6 btn-memory">{{ item.icon }}</v-icon>
             </span>
@@ -14,21 +16,9 @@
 <script>
 export default {
     data: ()=>({
-        blockMemory: [
-            {
-                name : 'block Name 1',
-                size : '10 kb',
-                icon : 'mdi-crop-free',
-                background :{backgroundColor:"#7fbd9e"} 
-            },
-            {
-                name : 'block Name 2',
-                size : '20kb',
-                icon : 'mdi-close-circle',
-                background :{backgroundColor:"#bd7f7f"} 
-            },
-        ],
+
     }),
+
     
 }
 </script>

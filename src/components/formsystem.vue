@@ -37,7 +37,7 @@
                 <v-form ref="form" v-model="valid" lazy-validation>
                                  
                     <v-text-field
-                        v-model="nameapp" autofocus
+                        v-model="nameApp" autofocus
                         :counter="10" :rules="nameRules"
                         label="App name" required>
                     </v-text-field>             
@@ -76,7 +76,7 @@ export default {
             // input nama
             valid: true,
             name: '',
-            nameapp: '',
+            nameApp: '',
             nameRules: [
               v => !!v || 'Name is required',
               v => (v && v.length <= 10) || 'Name must be less than 10 characters',
@@ -85,13 +85,14 @@ export default {
             value: 30,
             rules: [
               v => v <= 80 || 'block too large, please choose a smaller range',
-              v => v >= 20 || 'block too smal, please choose a biger range',
+              v => v >= 25 || 'block too smal, please choose a biger range',
             ],
             btnMemory:true,
             formBlock: false,
             formApp: false,
             type: 'hex',
-            hex: '#FF00FF',
+            hex: '#9c9c9c',
+            icon : ''
         }
     },
     computed:{
@@ -116,7 +117,22 @@ export default {
         addBlock(){
             this.formBlock = !this.formBlock;
             this.btnMemory = !this.btnMemory;
-            console.log(this.internalValue)
+
+             var dataBackground = {backgroundColor: this.hex,height: `${this.value}px` };
+            
+             if(this.name === ''){
+                 this.icon = 'mdi-close-circle'
+             }
+            this.icon = 'mdi-crop-free';
+            var data = { 
+                name : this.name, 
+                nameApp : this.nameApp,
+                size : `${this.value}kb`, 
+                icon: this.icon,
+                background: dataBackground
+                };
+            this.$store.commit('addBlock',data);
+            this.resetValues();
         },
         firstSet(){
             this.formApp = !this.formApp;
@@ -132,6 +148,13 @@ export default {
             this.formApp = !this.formApp;
             this.btnMemory = !this.btnMemory;
             console.log('first setting')
+        },
+        resetValues(){
+            this.name = '',
+            this.nameApp = ''
+            this.value = 30,
+            this.icon = 'mdi-crop-free'
+
         }
     },
 }
