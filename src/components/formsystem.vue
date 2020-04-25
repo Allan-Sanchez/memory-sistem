@@ -127,7 +127,8 @@ export default {
             var data = { 
                 name : this.name, 
                 nameApp : this.nameApp,
-                size : `${this.value}kb`, 
+                size : `${this.value}kb`,
+                sizeValue: this.value, 
                 icon: this.icon,
                 background: dataBackground
                 };
@@ -137,7 +138,26 @@ export default {
         firstSet(){
             this.formApp = !this.formApp;
             this.btnMemory = !this.btnMemory;
-            console.log('first setting')
+
+            var dataBackground = {backgroundColor: this.hex,height: `${this.value}px` };
+            
+            if(this.nameApp === ''){
+                 this.icon = 'mdi-crop-free'
+             }
+             this.icon = 'mdi-close-circle';
+             
+            var data = { 
+                name : this.name, 
+                nameApp : this.nameApp,
+                size : `${this.value}kb`,
+                sizeValue: this.value, 
+                icon: this.icon,
+                background: dataBackground
+                };
+
+                this.$store.commit('fistSet',data);
+                this.resetValues();
+           
         },
         lastSet(){
             this.formApp = !this.formApp;
