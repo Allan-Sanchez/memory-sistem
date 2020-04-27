@@ -10,7 +10,7 @@
                 <v-form ref="form" v-model="valid" lazy-validation>
                     <v-text-field
                         v-model="name"
-                        :counter="10" :rules="nameRules"
+                        :counter="20" :rules="nameRules"
                         label="BLock Name" autofocus required>
                     </v-text-field>             
                                
@@ -38,7 +38,7 @@
                                  
                     <v-text-field
                         v-model="nameApp" autofocus
-                        :counter="10" :rules="nameRules"
+                        :counter="20" :rules="nameRules"
                         label="App name" required>
                     </v-text-field>             
                     <v-slider 
@@ -79,12 +79,12 @@ export default {
             nameApp: '',
             nameRules: [
               v => !!v || 'Name is required',
-              v => (v && v.length <= 10) || 'Name must be less than 10 characters',
+              v => (v && v.length <= 20) || 'Name must be less than 10 characters',
             ],
             // input range
-            value: 30,
+            value: 50,
             rules: [
-              v => v <= 80 || 'block too large, please choose a smaller range',
+              v => v <= 99 || 'block too large, please choose a smaller range',
               v => v >= 25 || 'block too smal, please choose a biger range',
             ],
             btnMemory:true,
@@ -145,6 +145,10 @@ export default {
                  this.icon = 'mdi-crop-free'
              }
              this.icon = 'mdi-close-circle';
+
+             if (this.value < 20) {
+                 dataBackground.height = "20px";
+             }
              
             var data = { 
                 name : this.name, 
@@ -173,6 +177,7 @@ export default {
             this.name = '',
             this.nameApp = ''
             this.value = 30,
+            this.hex = "#9c9c9c";
             this.icon = 'mdi-crop-free'
 
         }

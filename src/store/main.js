@@ -20,6 +20,17 @@ export default new Vuex.Store({
             {
                 name : 'block name 1',
                 nameApp: '',
+                size : '40 kb',
+                sizeValue : 40,
+                icon : 'mdi-crop-free',
+                background :{
+                    backgroundColor:"#c4c4c4",
+                    height :"40px"
+                    } 
+            },
+            {
+                name : 'block name 1',
+                nameApp: '',
                 size : '35 kb',
                 sizeValue : 35,
                 icon : 'mdi-crop-free',
@@ -42,6 +53,9 @@ export default new Vuex.Store({
         ],
     },
     getters:{
+        arraySize: state => {
+            return state.blockMemory.map(size => size);
+          }
 
     },
     mutations:{
@@ -52,18 +66,17 @@ export default new Vuex.Store({
         fistSet(state,data){
             var dataTest = true;
 
-             var range = state.blockMemory.length;
-             console.log(range);
-
             state.blockMemory.forEach((item,index) => {
-
-                console.log(`${item.sizeValue} index ${index}`);
 
                 if (item.sizeValue >= data.sizeValue && dataTest && item.nameApp  === '') {
 
                      var sizeData = item.sizeValue - data.sizeValue;
                      var sizeText = `${sizeData}kb`;
                      var sizeHeight = `${sizeData}px`;
+
+                     if (sizeData <= 20 &&  sizeData > 0 ) {
+                         sizeHeight ='20px';
+                     }
 
                      var newData ={
                         name : item.name,
@@ -79,18 +92,10 @@ export default new Vuex.Store({
 
                      state.blockMemory.splice(index,1,data,newData);
 
-
-                    // console.log(newData);
-                    // console.log(item);
-
-                    // console.log(`aqui toca ${item.sizeValue} => ${data.sizeValue}`);
                     dataTest = false;
-                    // console.log(`dataTest es igual a ${item.sizeValue} =>  ${dataTest}`);
                 }
             });
-            // console.log(state.blockMemory);
-            // console.log(data.sizeValue);
-            // state.blockMemory.push(data);
+            
         },
         lastSet(){
             
