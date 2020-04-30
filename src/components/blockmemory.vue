@@ -15,7 +15,7 @@
                     {{ item.nameApp }}
                 </span>
                 <span class="white--text d-block my-1 font-weight-bold">{{ item.size }}
-                    <v-icon left class="mr-n6 btn-memory" @click="alertFirst()">{{ item.icon }}</v-icon>
+                    <v-icon left class="mr-n6 btn-memory" @click="cleanMemory(index)">{{ item.icon }}</v-icon>
                 </span>
             </template>
             
@@ -26,16 +26,14 @@
 
 <script>
 export default {
+    
     data: ()=>({
 
     }),
     methods: {
-        alertFirst(){
-           var data = this.$store.getters.arraySize;
-        //    console.log(data);
-           data.forEach(item => {
-               console.log(item);
-           });
+        cleanMemory(e){
+        this.$store.commit('cleanItemMemory',e);
+
         }
     },
 

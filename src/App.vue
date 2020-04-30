@@ -9,7 +9,7 @@
 
                 <v-spacer></v-spacer>
 
-                <v-menu bottom left>
+                <v-menu bottom left >
                   <template v-slot:activator="{ on }">
                     <v-btn
                       dark
@@ -17,16 +17,17 @@
                       v-on="on"
                     >
                       <v-icon>mdi-dots-vertical</v-icon>
+                      
                     </v-btn>
                   </template>
 
                   <v-list>
-                    <v-list-item
-                      v-for="(item, i) in items"
-                      :key="i"
-                      
-                    >
-                      <v-list-item-title>{{ item.title }}</v-list-item-title>
+                    <v-list-item @click="cleanMemory()">
+                      <v-list-item-title>{{ btnclean }}</v-list-item-title>
+                    </v-list-item>
+
+                    <v-list-item   @click="back()">
+                      <v-list-item-title>{{ btnBacK }}</v-list-item-title>
                     </v-list-item>
                   </v-list>
                 </v-menu>
@@ -35,7 +36,8 @@
               <v-card-text>
                 <v-row>
                    <v-col  sm="12" md="6">
-                       <FormSystem></FormSystem>
+                       <FormSystem :propapp="app" :propblock="block" :propmemory="memory" 
+                       v-on:newblock="newBlock()" v-on:newApp="newApp()"></FormSystem>
                    </v-col>
                    <v-col  sm="12" md="6">
                         <h3 class="text-center my-3">Memory State</h3>
@@ -64,10 +66,32 @@ export default {
   },
 
   data: () => ({
-    items: [
-        { title: 'Clean Memory' },
-        { title: 'Back' },
-      ],
+    btnclean : 'Clean Memory',
+    btnBacK : 'Back',
+    memory : true,
+    app: false,
+    block : false
+    
   }),
+  methods: {
+    back(){
+      this.memory = true;
+      this.app = false;
+      this.block = false;
+    },
+    cleanMemory(){
+      this.$store.commit('cleanMemory');
+      this.back();
+    },
+    newBlock(){
+      this.memory = !this.memory;
+      this.block = !this.block;
+    },
+    newApp(){
+      this.memory = !this.memory;
+      this.app = !this.app;
+    }
+  },
+  
 };
 </script>

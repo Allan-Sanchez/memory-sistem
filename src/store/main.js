@@ -5,56 +5,19 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     state:{
-        blockMemory: [
-            {
-                name : '',
-                nameApp: 'App_name 1',
-                size : '25 kb',
-                sizeValue : 25,
-                icon : 'mdi-close-circle',
-                background :{
-                    backgroundColor:"#7fbd9e",
-                    height :"25px"
-                    } 
-            },
-            {
-                name : 'block name 1',
-                nameApp: '',
-                size : '40 kb',
-                sizeValue : 40,
-                icon : 'mdi-crop-free',
-                background :{
-                    backgroundColor:"#c4c4c4",
-                    height :"40px"
-                    } 
-            },
-            {
-                name : 'block name 1',
-                nameApp: '',
-                size : '35 kb',
-                sizeValue : 35,
-                icon : 'mdi-crop-free',
-                background :{
-                    backgroundColor:"#c4c4c4",
-                    height :"35px"
-                    } 
-            },
-            {
-                name : 'block name 2',
-                nameApp: '',
-                size : '40 kb',
-                sizeValue : 40,
-                icon : 'mdi-crop-free',
-                background :{
-                    backgroundColor:"#c4c4c4",
-                    height :"40px"
-                    } 
-            },
-        ],
+        blockMemory: [],
     },
     getters:{
         arraySize: state => {
-            return state.blockMemory.map(size => size);
+           var size_Name =  state.blockMemory.map((size) => {
+
+               return  { size:size.sizeValue,name: size.name};
+            } );
+
+            return  size_Name.map((item) => {
+                return  item.name !== '' ? item.size : '';
+            });
+
           }
 
     },
@@ -63,7 +26,7 @@ export default new Vuex.Store({
             
             state.blockMemory.push(data);
         },
-        fistSet(state,data){
+        fistFit(state,data){
             var dataTest = true;
 
             state.blockMemory.forEach((item,index) => {
@@ -97,13 +60,42 @@ export default new Vuex.Store({
             });
             
         },
-        lastSet(){
+        worstFit(){
             
             // state.blockMemory.push(data);
         },
-        bestSet(){
+        bestFit(){
             
             // state.blockMemory.push(data);
+        },
+        cleanItemMemory(state,data){
+
+            var dataClean = state.blockMemory.filter((item, index) => {
+                if (index === data) {
+                    return item;
+                }
+            });
+
+            if (dataClean[0].nameApp !== '') {
+
+                var newData ={
+                name : 'Memory Free',
+                nameApp: '',
+                size : dataClean[0].size,
+                sizeValue :dataClean[0].sizeValue,
+                icon : 'mdi-crop-free',
+                background :{
+                    backgroundColor:"#9c9c9c",
+                    height :dataClean[0].background.height
+                    } 
+                };
+                // console.log(newData);
+                state.blockMemory.splice(data,1,newData);
+            }
+            return false;
+        },
+        cleanMemory(state){
+            state.blockMemory = [];
         }
     }
 });
