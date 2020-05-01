@@ -7,7 +7,7 @@
             </v-card-actions>
 
             <div v-if="propblock">
-                <v-form ref="form" v-model="valid" lazy-validation>
+                <v-form ref="form" v-model="valid" :lazy-validation="true">
                     <v-text-field
                         v-model="name"
                         :counter="20" :rules="nameRules"
@@ -34,7 +34,7 @@
             </div>
 
             <div v-if="propapp">
-                <v-form ref="form" v-model="valid" lazy-validation>
+                <v-form ref="form" v-model="valid" >
                                  
                     <v-text-field
                         v-model="nameApp" autofocus
