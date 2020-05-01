@@ -102,14 +102,11 @@ export default {
             value: 50,
             rules: [
               v => v <= 99 || 'block too large, please choose a smaller range',
-              v => v >= 25 || 'block too smal, please choose a biger range',
+              v => v >= 25 || 'block too small, please choose a bigger range',
             ],
             snackbar: false,
             text: 'process too big to put into memory.',
-            timeout: 5000,
-            // btnMemory:true,
-            // formBlock: false,
-            // formApp: false,
+            timeout: 4000,
             type: 'hex',
             hex: '#9c9c9c',
             icon : ''
@@ -163,9 +160,6 @@ export default {
             var validaSize = Math.max(...range);
 
             if (this.value <= validaSize && this.nameApp !== '') {
-                
-                this.formApp = !this.formApp;
-                this.btnMemory = !this.btnMemory;
 
                 var dataBackground = {backgroundColor: this.hex,height: `${this.value}px` };
                 
@@ -201,10 +195,86 @@ export default {
             }
         },
         worstFit(){
-            console.log('last setting')
+            var sizeData = this.$store.getters.arraySize;
+            var validaSize = Math.max(...sizeData);
+
+             if (this.value <= validaSize && this.nameApp !== '') {
+                 
+                var dataBackground = {backgroundColor: this.hex,height: `${this.value}px` };
+                
+                if(this.nameApp === ''){
+                     this.icon = 'mdi-crop-free'
+                 }
+                 this.icon = 'mdi-close-circle';
+            
+                if (this.value < 20) {
+                    dataBackground.height = "20px";
+                }
+                var data = { 
+                    name : '', 
+                    nameApp : this.nameApp,
+                    sizeMax : validaSize, 
+                    size : `${this.value}kb`,
+                    sizeValue: this.value, 
+                    icon: this.icon,
+                    background: dataBackground
+                    };
+
+                    this.$store.commit('worstFit',data);
+                    this.resetValues();
+
+
+             }
+             else{
+                if (this.nameApp === '') {
+                    this.text = 'Please give me the process name.';
+                    this.snackbar = true;
+                    return false
+                }
+                this.text = 'process too big to put into memory.';
+                this.snackbar = true;
+            }
         },
         bestFit(){
-            console.log('best fit')
+            var sizeData = this.$store.getters.arraySize;
+            var validaSize = Math.max(...sizeData);
+
+            if (this.value <= validaSize && this.nameApp !== '') {
+                 
+                var dataBackground = {backgroundColor: this.hex,height: `${this.value}px` };
+                
+                if(this.nameApp === ''){
+                     this.icon = 'mdi-crop-free'
+                 }
+                 this.icon = 'mdi-close-circle';
+            
+                if (this.value < 20) {
+                    dataBackground.height = "20px";
+                }
+                var data = { 
+                    name : '', 
+                    nameApp : this.nameApp,
+                    sizeMax : validaSize, 
+                    size : `${this.value}kb`,
+                    sizeValue: this.value, 
+                    icon: this.icon,
+                    background: dataBackground
+                    };
+
+                    this.$store.commit('bestFit',data);
+                    this.resetValues();
+
+
+             }
+             else{
+                if (this.nameApp === '') {
+                    this.text = 'Please give me the process name.';
+                    this.snackbar = true;
+                    return false
+                }
+                this.text = 'process too big to put into memory.';
+                this.snackbar = true;
+            }
         },
         resetValues(){
             this.name = 'Memory Free',

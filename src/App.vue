@@ -46,6 +46,7 @@
                    
                 </v-row>
               </v-card-text>
+               <p class="text--disabled">Allan Edrey Sanchez Rixtun 1590-13-10353.</p>
             </v-card>
           </v-col>
         </v-row>
