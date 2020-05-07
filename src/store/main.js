@@ -97,7 +97,7 @@ export default new Vuex.Store({
             var dataTest2 = true;
 
             state.blockMemory.forEach((item,index) => {
-                if (item.sizeValue === data.sizeValue  && dataTest) {
+                if (item.sizeValue === data.sizeValue  && dataTest && item.nameApp  === '') {
                     var sizeData = item.sizeValue - data.sizeValue;
                     var sizeText = `${sizeData}kb`;
                     var sizeHeight = `${sizeData}px`;
@@ -129,7 +129,7 @@ export default new Vuex.Store({
 
             if (dataTest2) {
                 state.blockMemory.forEach((item, index) => {
-                    if (item.sizeValue >= data.sizeValue && dataTest2) {
+                    if (item.sizeValue >= data.sizeValue && dataTest2 && item.nameApp  === '') {
                         var sizeData = item.sizeValue - data.sizeValue;
                         var sizeText = `${sizeData}kb`;
                         var sizeHeight = `${sizeData}px`;

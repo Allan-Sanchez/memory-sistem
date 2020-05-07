@@ -28,6 +28,10 @@
 
                     <v-list-item   @click="back()">
                       <v-list-item-title>{{ btnBacK }}</v-list-item-title>
+                    </v-list-item> 
+
+                    <v-list-item @click.stop="dialog = true">
+                      <v-list-item-title>Team</v-list-item-title>
                     </v-list-item>
                   </v-list>
                 </v-menu>
@@ -46,12 +50,63 @@
                    
                 </v-row>
               </v-card-text>
-               <p class="text--disabled">Allan Edrey Sanchez Rixtun 1590-13-10353.</p>
+               <!-- <p class="text--disabled">Allan Edrey Sanchez Rixtun 1590-13-10353.</p> -->
             </v-card>
           </v-col>
         </v-row>
+        <!-- modal team -->
+        <v-dialog
+          v-model="dialog" max-width="490" >
+          <v-card>
+            <v-card-title class="headline">Team membes</v-card-title>
+    
+            <v-card-text>
+              <div class="d-flex justify-space-between"> 
+                 <span class="d-block">Allan Edrey Sanchez Rixtun</span> <span class="d-block font-weight-black">1590-13-10353.</span>
+              </div>
+
+              <div class="d-flex justify-space-between"> 
+                 <span class="d-block">Danny Castañeda Montufar</span> <span class="d-block font-weight-black">1590-11-2066.</span>
+              </div>
+
+              <div class="d-flex justify-space-between"> 
+                 <span class="d-block">Daniel Alejandro Meda Juárez</span> <span class="d-block font-weight-black">1590-16-2661.</span>
+              </div>
+
+              <div class="d-flex justify-space-between"> 
+                 <span class="d-block">Juan pablo lopez montoya</span> <span class="d-block font-weight-black">1590-16-11594.</span>
+              </div>
+
+              <div class="d-flex justify-space-between"> 
+                 <span class="d-block">Maico Rigoberto Victoriano Yuman</span> <span class="d-block font-weight-black">1590-14-1595.</span>
+              </div>
+
+              <div class="d-flex justify-space-between"> 
+                 <span class="d-block">Estuardo Nehemías Aguilar Pineda</span> <span class="d-block font-weight-black">1590-12-15602.</span>
+              </div>
+
+              
+              
+              
+            </v-card-text>
+    
+            <v-card-actions>
+              <v-spacer></v-spacer>
+   
+              <v-btn
+                color="primary"
+                text
+                @click="dialog = false"
+              >
+                Agree
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
     </v-content>
   </v-app>
+
+  
 </template>
 
 <script>
@@ -71,7 +126,8 @@ export default {
     btnBacK : 'Back',
     memory : true,
     app: false,
-    block : false
+    block : false,
+    dialog: true,
     
   }),
   methods: {
@@ -91,7 +147,8 @@ export default {
     newApp(){
       this.memory = !this.memory;
       this.app = !this.app;
-    }
+    },
+    
   },
   
 };
