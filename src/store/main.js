@@ -68,36 +68,39 @@ export default new Vuex.Store({
             var dataTest = true;
             state.blockMemory.forEach((item,index) => {
 
-                if(item.sizeValue == data.sizeValue && dataTest && item.nameApp  === ''){
-                    state.blockMemory.splice(index,1,data);
-                    dataTest = false;
-                }
+    
+                    if (item.sizeValue === data.sizeMax && dataTest && item.nameApp  === '') {
+                         var sizeData = item.sizeValue - data.sizeValue;
+                         var sizeText = `${sizeData}kb`;
+                         var sizeHeight = `${sizeData}px`;
 
-                if (item.sizeValue === data.sizeMax && dataTest && item.nameApp  === '') {
-                     var sizeData = item.sizeValue - data.sizeValue;
-                     var sizeText = `${sizeData}kb`;
-                     var sizeHeight = `${sizeData}px`;
+                         if (sizeData === 0) {
+                            state.blockMemory.splice(index,1,data);
+                            dataTest = false;
+                            return false;
+                         }
+    
+                         if (sizeData <= 20 &&  sizeData > 0 ) {
+                             sizeHeight ='20px';
+                         }
+    
+                         var newData ={
+                            name : item.name,
+                            nameApp: item.nameApp,
+                            size : sizeText,
+                            sizeValue : sizeData,
+                            icon : item.icon,
+                            background :{
+                                backgroundColor:item.background.backgroundColor,
+                                height :sizeHeight
+                                } 
+                         };
+    
+                         state.blockMemory.splice(index,1,data,newData);
+    
+                        dataTest = false;
+                    }
 
-                     if (sizeData <= 20 &&  sizeData > 0 ) {
-                         sizeHeight ='20px';
-                     }
-
-                     var newData ={
-                        name : item.name,
-                        nameApp: item.nameApp,
-                        size : sizeText,
-                        sizeValue : sizeData,
-                        icon : item.icon,
-                        background :{
-                            backgroundColor:item.background.backgroundColor,
-                            height :sizeHeight
-                            } 
-                     };
-
-                     state.blockMemory.splice(index,1,data,newData);
-
-                    dataTest = false;
-                }
             });
         },
         bestFit(state,data){

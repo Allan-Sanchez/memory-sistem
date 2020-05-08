@@ -138,6 +138,9 @@ export default {
                      this.icon = 'mdi-close-circle'
                  }
                 this.icon = 'mdi-crop-free';
+                if (this.value < 20) {
+                    dataBackground.height = '20px';
+                }
                 var data = { 
                     name : this.name, 
                     nameApp : this.nameApp,
