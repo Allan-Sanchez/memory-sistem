@@ -31,7 +31,7 @@ export default new Vuex.Store({
 
             state.blockMemory.forEach((item,index) => {
 
-                if (item.sizeValue >= data.sizeValue && dataTest && item.nameApp  === '') {
+                if (item.sizeValue > data.sizeValue && dataTest && item.nameApp  === '') {
 
                      var sizeData = item.sizeValue - data.sizeValue;
                      var sizeText = `${sizeData}kb`;
@@ -57,13 +57,21 @@ export default new Vuex.Store({
 
                     dataTest = false;
                 }
+                if(item.sizeValue == data.sizeValue && dataTest && item.nameApp  === ''){
+                    state.blockMemory.splice(index,1,data);
+                    dataTest = false;
+                }
             });
             
         },
         worstFit(state,data){
             var dataTest = true;
-            // console.log(data);
             state.blockMemory.forEach((item,index) => {
+
+                if(item.sizeValue == data.sizeValue && dataTest && item.nameApp  === ''){
+                    state.blockMemory.splice(index,1,data);
+                    dataTest = false;
+                }
 
                 if (item.sizeValue === data.sizeMax && dataTest && item.nameApp  === '') {
                      var sizeData = item.sizeValue - data.sizeValue;
@@ -94,19 +102,37 @@ export default new Vuex.Store({
         },
         bestFit(state,data){
             var dataTest = true;
-            var dataTest2 = true;
+
+            let arraDate = state.blockMemory.filter((item) => {
+                if(item.sizeValue >= data.sizeValue && item.nameApp  === ''){
+                   return item;
+                }
+            });
+            
+            let sizeDataT =arraDate.map((item) => {
+                return item.sizeValue;
+            });
+
+            let best = Math.min(...sizeDataT);
 
             state.blockMemory.forEach((item,index) => {
-                if (item.sizeValue === data.sizeValue  && dataTest && item.nameApp  === '') {
-                    var sizeData = item.sizeValue - data.sizeValue;
-                    var sizeText = `${sizeData}kb`;
-                    var sizeHeight = `${sizeData}px`;
+
+                if(item.sizeValue == data.sizeValue && dataTest && item.nameApp  === ''){
+                    state.blockMemory.splice(index,1,data);
+                    dataTest = false;
+                }
+
+                if (item.sizeValue === best && dataTest && item.nameApp  === '') {
+
+                    let sizeData = item.sizeValue - data.sizeValue;
+                    let sizeText = `${sizeData}kb`;
+                    let sizeHeight = `${sizeData}px`;
 
                     if (sizeData <= 20 &&  sizeData > 0 ) {
                         sizeHeight ='20px';
                     }
 
-                    var newData ={
+                    let newData ={
                        name : item.name,
                        nameApp: item.nameApp,
                        size : sizeText,
@@ -117,47 +143,12 @@ export default new Vuex.Store({
                            height :sizeHeight
                            } 
                     };
-
-                    state.blockMemory.splice(index,1,data,newData);
-
                     dataTest = false;
-                    dataTest2 = false;
-                    return true;
+                    state.blockMemory.splice(index,1,data,newData);
+                    
                 }
-                
             });
 
-            if (dataTest2) {
-                state.blockMemory.forEach((item, index) => {
-                    if (item.sizeValue >= data.sizeValue && dataTest2 && item.nameApp  === '') {
-                        var sizeData = item.sizeValue - data.sizeValue;
-                        var sizeText = `${sizeData}kb`;
-                        var sizeHeight = `${sizeData}px`;
-                        
-                        if (sizeData <= 20 &&  sizeData > 0 ) {
-                            sizeHeight ='20px';
-                        }
-                     
-                        var newData ={
-                           name : item.name,
-                           nameApp: item.nameApp,
-                           size : sizeText,
-                           sizeValue : sizeData,
-                           icon : item.icon,
-                           background :{
-                               backgroundColor:item.background.backgroundColor,
-                               height :sizeHeight
-                               } 
-                        };
-                     
-                        state.blockMemory.splice(index,1,data,newData);
-
-                        dataTest2 = false;
-                        return item;
-                    }
-                });
-            }
-            // state.blockMemory.push(data);
         },
         cleanItemMemory(state,data){
 
@@ -187,6 +178,40 @@ export default new Vuex.Store({
         },
         cleanMemory(state){
             state.blockMemory = [];
+        },
+        cleanMemoryCompact(state,data){
+            let firstBlock = state.blockMemory.filter((item,index) => {
+                let tempdata = data - 1;
+                if (tempdata == index) {
+                    return item ;    
+                }
+            });
+            let lastBlock = state.blockMemory.filter((item,index) => {
+                let tempdata = data + 1;
+                if (tempdata == index) {
+                    return item ;
+                }
+            });
+
+            if (lastBlock.length >= 1) {
+                console.log(lastBlock[0].name);
+                if (lastBlock[0].nameApp === '') {
+                    console.log('aqui compacto asi abajo');
+                    return false;
+                }
+            }
+            if (firstBlock.length >= 1) {
+                console.log(lastBlock[0].name);
+
+                if (firstBlock[0].name !== '') {
+                    console.log('aqui compacto asi arriba');
+                    return false;
+                }
+            }
+            return false;
+            // console.log('no se pudo compactar');
+            // console.log(firstBlock);
+            // console.log(lastBlock);
         }
     }
 });

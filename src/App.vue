@@ -127,7 +127,7 @@ export default {
     memory : true,
     app: false,
     block : false,
-    dialog: true,
+    dialog: false,
     
   }),
   methods: {
